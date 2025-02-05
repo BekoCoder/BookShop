@@ -1,0 +1,62 @@
+#server:
+#  port: 8081
+
+spring:
+  application:
+    name: Bookshop
+
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: bookshop
+    password: 1234
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+
+jwt:
+  token:
+    secret: f9b62abb0dcc765f03c0efff7a8e0ee4b31017fce3672c3eb56c296803bf643c50b1cb55080ef405b140f92710702fc932284eeac227e46689ef72994c68cc0c
+    token_validity: 86400000
+
+
+server:
+  servlet:
+    context-path: /books-api
+  port: 8081
+
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    tags-sorter: alpha
+    display-request-duration: true
+    operations-sorter: method
+    path: /docs
+
+
+
+#logging:
+#  level:
+#    org.hibernate.orm.connections.pooling: OFF
+#    com.zaxxer.hikari.HikariDataSource: OFF
+#    com.zaxxer.hikari.pool.HikariPool: OFF
+
+#    loging levelni pastdaki consolda chiqqani uchun yozilgan (OFF)
+
+#    Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+#    Database driver: undefined/unknown
+#    Database version: 21.3
+#    Autocommit mode: undefined/unknown
+#    Isolation level: undefined/unknown
+#    Minimum pool size: undefined/unknown
+#    Maximum pool size: undefined/unknown
