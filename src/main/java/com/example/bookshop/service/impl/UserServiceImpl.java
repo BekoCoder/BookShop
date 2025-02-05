@@ -6,6 +6,7 @@ import com.example.bookshop.dto.ResponseDto;
 import com.example.bookshop.dto.UserDto;
 import com.example.bookshop.entity.User;
 import com.example.bookshop.exceptions.CustomException;
+import com.example.bookshop.exceptions.UserNotFoundExceptions;
 import com.example.bookshop.jwt.JwtService;
 import com.example.bookshop.repository.UserRepository;
 import com.example.bookshop.service.UserService;
@@ -71,22 +72,60 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDto<UserDto> update(UserDto userDto, Long id) {
-        return null;
+        ResponseDto<UserDto> responseDto = new ResponseDto<>();
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundExceptions("Foydalanuvchi topilmadi"));
+        if (user.getIsDeleted() == 1) {
+            throw new CustomException("Foydalanuvchi bloklangan");
+        }
+        if (!checkPassword(userDto.getPassword())) {
+            throw new CustomException("Parol uzunligi 5 va 16 uzunlik orasida bo'lishi kerak !!!");
+        }
+        if (isExistUser(userDto.getUsername())) {
+            throw new CustomException("Bu username bilan allaqachon ro'yhatdan o'tilgan. Iltimos boshqa username kiriting!!!");
+        }
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userRepository.save(user);
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Foydalanuvchi muvafaqqiyatli yangilandi");
+        responseDto.setRecordsTotal(1L);
+        responseDto.setData(mapper.map(user, UserDto.class));
+        return responseDto;
+
     }
 
     @Override
-    public ResponseDto<Page<UserDto>> getAllUser(Pageable pageable) {
-        return null;
+    public Page<UserDto> getAllUser(Pageable pageable) {
+        return userRepository.findAllByIsDeleted(pageable, 0).map((element) -> mapper.map(element, UserDto.class));
     }
 
     @Override
     public ResponseDto<UserDto> getById(Long id) {
-        return null;
+        ResponseDto<UserDto> responseDto = new ResponseDto<>();
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundExceptions("Foydalanuvchi topilmadi"));
+        if (user.getIsDeleted() == 1) {
+            throw new CustomException("Foydalanuvchi topilmadi");
+        }
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Foydalanuvchi topildi");
+        responseDto.setRecordsTotal(1L);
+        responseDto.setData(mapper.map(user, UserDto.class));
+        return responseDto;
     }
 
     @Override
     public ResponseDto<String> deleteById(Long id) {
-        return null;
+        ResponseDto<String> responseDto = new ResponseDto<>();
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundExceptions("Foydalanuvchi topilmadi"));
+        if (user.getIsDeleted() == 1) {
+            throw new CustomException("Foydalanuvchi allaqachon o'chirilgan");
+        }
+        user.setIsDeleted(1);
+        userRepository.save(user);
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Foydalanuvchi muvafaqqiyatli o'chirildi !!!");
+        responseDto.setRecordsTotal(1L);
+        return responseDto;
     }
 
     @Override
