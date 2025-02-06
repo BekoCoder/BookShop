@@ -1,6 +1,5 @@
 package com.example.bookshop.repository;
 
-import com.example.bookshop.dto.UserDto;
 import com.example.bookshop.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
 
-    Page<UserDto> findAllByIsDeleted(Pageable pageable, int isDeleted);
+    Page<User> findAllByIsDeleted(Pageable pageable, int isDeleted);
 }

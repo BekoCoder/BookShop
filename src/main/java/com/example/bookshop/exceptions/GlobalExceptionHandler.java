@@ -23,4 +23,13 @@ public class GlobalExceptionHandler {
         responseDto.setReason(e.getMessage());
         return ResponseEntity.badRequest().body(responseDto);
     }
+
+
+    @ExceptionHandler(BooksException.class)
+    public ResponseEntity<Object> handleCustomException(BooksException e) {
+        ResponseDto<Object> responseDto = new ResponseDto<>();
+        responseDto.setSuccess(false);
+        responseDto.setReason(e.getMessage());
+        return ResponseEntity.badRequest().body(responseDto);
+    }
 }

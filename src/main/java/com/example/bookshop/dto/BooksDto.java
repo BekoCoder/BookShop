@@ -8,8 +8,6 @@ import lombok.Data;
 public class BooksDto {
     @Schema(description = "Kitob nomi")
     private String title;
-    @Schema(description = "Kitob mualifi")
-    private String author;
     @Schema(description = "Kitob tavsifi")
     private String description;
     @Schema(description = "Kitob narxi")
