@@ -32,4 +32,12 @@ public class GlobalExceptionHandler {
         responseDto.setReason(e.getMessage());
         return ResponseEntity.badRequest().body(responseDto);
     }
+
+    @ExceptionHandler(AuthorException.class)
+    public ResponseEntity<Object> handleCustomException(AuthorException e) {
+        ResponseDto<Object> responseDto = new ResponseDto<>();
+        responseDto.setSuccess(false);
+        responseDto.setReason(e.getMessage());
+        return ResponseEntity.badRequest().body(responseDto);
+    }
 }
