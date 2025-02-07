@@ -40,4 +40,20 @@ public class GlobalExceptionHandler {
         responseDto.setReason(e.getMessage());
         return ResponseEntity.badRequest().body(responseDto);
     }
+    @ExceptionHandler(RoleException.class)
+    public ResponseEntity<Object> handleCustomException(RoleException e) {
+        ResponseDto<Object> responseDto = new ResponseDto<>();
+        responseDto.setSuccess(false);
+        responseDto.setReason(e.getMessage());
+        return ResponseEntity.badRequest().body(responseDto);
+    }
+
+    @ExceptionHandler(PermissionException.class)
+    public ResponseEntity<Object> handleCustomException(PermissionException e) {
+        ResponseDto<Object> responseDto = new ResponseDto<>();
+        responseDto.setSuccess(false);
+        responseDto.setReason(e.getMessage());
+        return ResponseEntity.badRequest().body(responseDto);
+    }
+
 }

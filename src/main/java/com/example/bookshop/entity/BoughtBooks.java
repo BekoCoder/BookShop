@@ -1,5 +1,6 @@
 package com.example.bookshop.entity;
 
+import com.example.bookshop.enumerations.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,9 @@ public class BoughtBooks extends AbstractEntity {
     @JoinColumn(name = "books_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Books book;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
 
 }
