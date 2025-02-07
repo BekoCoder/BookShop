@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/**").permitAll()
                                 .requestMatchers("/book/**").permitAll()
                                 .requestMatchers("/author/**").permitAll()
+                                .requestMatchers("/role/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
