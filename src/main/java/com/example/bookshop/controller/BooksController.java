@@ -50,4 +50,12 @@ public class BooksController {
         Page<BooksDto> allBooks = booksService.getAllBooks(pageable);
         return ResponseEntity.ok(allBooks.getContent());
     }
+
+
+    @Operation(summary = "Id orqali kitobni yangilash")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseDto<BooksDto>> updateBook(@PathVariable Long id, @RequestBody BooksDto booksDto) {
+        log.info("Update book");
+        return ResponseEntity.ok(booksService.updateBook(booksDto, id));
+    }
 }
