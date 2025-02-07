@@ -26,6 +26,7 @@ public class BooksServiceImpl implements BooksService {
             throw new BooksException("Kitob allaqachon qo'shilgan !!!");
         }
         booksRepository.save(books);
+        responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvafaqqiyatli qo'shildi");
         responseDto.setRecordsTotal(booksRepository.count());
         responseDto.setData(mapper.map(books, BooksDto.class));
@@ -38,7 +39,7 @@ public class BooksServiceImpl implements BooksService {
         ResponseDto<BooksDto> responseDto = new ResponseDto<>();
         Books books = booksRepository.findById(id).orElseThrow(() -> new BooksException("Kitob topilmadi !!!"));
         if (isBookExist(books.getTitle())) {
-            throw new BooksException("Kitob topilmadi qo'shildi");
+            throw new BooksException("Bunday nomli kitob qo'shilgan !!!");
         }
         booksRepository.save(books);
         books.setTitle(booksDto.getTitle());
