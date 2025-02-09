@@ -15,4 +15,6 @@ public interface RoleService {
     ResponseDto<RolesDto> getRoleById(Long id);
 
     Page<RolesDto> getRoles(Pageable pageable);
+
+    ResponseDto<String> assignRoleToUser(Long userId, Long roleId);
 }

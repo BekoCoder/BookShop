@@ -53,7 +53,7 @@ public class BoughtBookServiceImpl implements BoughtBookService {
         boughBooksRepository.save(boughtBooks);
         responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvaffaqiyatli savatga qo'shildi");
-        responseDto.setRecordsTotal(boughBooksRepository.count());
+        responseDto.setRecordsTotal(1L);
         return responseDto;
     }
 

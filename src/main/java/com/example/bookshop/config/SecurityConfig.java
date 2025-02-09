@@ -47,7 +47,7 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers(pathAnonymous).permitAll()
                                 .requestMatchers("/admin/**").permitAll()
-                                .requestMatchers("/book/**").permitAll()
+                                .requestMatchers("/book/**").hasRole("ADMIN")
                                 .requestMatchers("/author/**").permitAll()
                                 .requestMatchers("/role/**").permitAll()
                                 .anyRequest().authenticated()

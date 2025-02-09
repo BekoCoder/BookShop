@@ -28,7 +28,7 @@ public class AuthorsServiceImpl implements AuthorsService {
         authorRepository.save(authors);
         responseDto.setSuccess(true);
         responseDto.setMessage("Muallif qo'shildi");
-        responseDto.setRecordsTotal(authorRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(authors, AuthorsDto.class));
         return responseDto;
 
@@ -45,7 +45,7 @@ public class AuthorsServiceImpl implements AuthorsService {
         authorRepository.save(authors);
         responseDto.setSuccess(true);
         responseDto.setMessage("Muallif yangilandi");
-        responseDto.setRecordsTotal(authorRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(authors, AuthorsDto.class));
         return responseDto;
     }
@@ -61,7 +61,7 @@ public class AuthorsServiceImpl implements AuthorsService {
         authorRepository.save(authors);
         responseDto.setSuccess(true);
         responseDto.setMessage("Muallif o'chirildi");
-        responseDto.setRecordsTotal(authorRepository.count());
+        responseDto.setRecordsTotal(1L);
         return responseDto;
     }
 
@@ -74,7 +74,7 @@ public class AuthorsServiceImpl implements AuthorsService {
         }
         responseDto.setSuccess(true);
         responseDto.setMessage("Muallif nomi: " + authors.getName());
-        responseDto.setRecordsTotal(authorRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(authors, AuthorsDto.class));
         return responseDto;
 

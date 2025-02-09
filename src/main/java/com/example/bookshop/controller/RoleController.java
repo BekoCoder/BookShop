@@ -44,10 +44,17 @@ public class RoleController {
         return ResponseEntity.ok(roleService.deleteRole(id));
     }
 
-    @Operation(description = "Barcha rollarni olish")
+    @Operation(summary = "Barcha rollarni olish")
     @GetMapping("/get-all")
     public ResponseEntity<List<RolesDto>> getAll(Pageable pageable) {
         Page<RolesDto> roles = roleService.getRoles(pageable);
         return ResponseEntity.ok(roles.getContent());
+    }
+
+    @Operation(summary = "Foydalanuvchiga rol biriktirish")
+    @PutMapping("/assign-role/{roleId}/{userId}")
+    public ResponseEntity<ResponseDto<String>> assignRole(@PathVariable Long userId, @PathVariable Long roleId) {
+        return ResponseEntity.ok(roleService.assignRoleToUser(userId, roleId));
+
     }
 }
