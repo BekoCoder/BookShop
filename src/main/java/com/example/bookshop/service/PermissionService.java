@@ -15,4 +15,6 @@ public interface PermissionService {
     ResponseDto<PermissionsDto> getPermission(Long id);
 
     Page<PermissionsDto> getPermissions(Pageable pageable);
+
+    ResponseDto<String> assignPermissionToRole(Long permissionId, Long roleId);
 }
