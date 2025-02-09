@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
         commentsRepository.save(comments);
         responseDto.setSuccess(true);
         responseDto.setMessage("Muvafaqqiyatli qo'shildi !!!");
-        responseDto.setRecordsTotal(commentsRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(comments, CommentsDto.class));
         return responseDto;
 
@@ -54,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
         comments.setComments(commentsDto.getComments());
         responseDto.setSuccess(true);
         responseDto.setMessage("Muvafaqqiyatli qo'shildi !!!");
-        responseDto.setRecordsTotal(commentsRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(comments, CommentsDto.class));
         return responseDto;
     }
@@ -74,7 +74,7 @@ public class CommentServiceImpl implements CommentService {
         Comments comments = commentsRepository.findById(id).orElseThrow(() -> new CustomException("Comment topilmadi"));
         responseDto.setSuccess(true);
         responseDto.setMessage("Muvafaqqiyatli qaytarildi !!!");
-        responseDto.setRecordsTotal(commentsRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(comments, CommentsDto.class));
         return responseDto;
     }

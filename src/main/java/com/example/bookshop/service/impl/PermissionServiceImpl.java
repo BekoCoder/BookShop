@@ -30,7 +30,7 @@ public class PermissionServiceImpl implements PermissionService {
         permissionsRepository.save(permissions);
         responseDto.setSuccess(true);
         responseDto.setMessage("Permission muvaffaqiyatli kiritildi");
-        responseDto.setRecordsTotal(permissionsRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(permissions, PermissionsDto.class));
         return responseDto;
     }
@@ -46,7 +46,7 @@ public class PermissionServiceImpl implements PermissionService {
         permissionsRepository.save(permissions);
         responseDto.setSuccess(true);
         responseDto.setMessage("Permission muvaffaqiyatli yangilandi");
-        responseDto.setRecordsTotal(permissionsRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(permissions, PermissionsDto.class));
         return responseDto;
     }
@@ -62,7 +62,7 @@ public class PermissionServiceImpl implements PermissionService {
         permissionsRepository.save(permissions);
         responseDto.setSuccess(true);
         responseDto.setMessage("Permission muvaffaqiyatli o'chirildi !!!");
-        responseDto.setRecordsTotal(permissionsRepository.count());
+        responseDto.setRecordsTotal(1L);
         return responseDto;
     }
 
@@ -74,7 +74,7 @@ public class PermissionServiceImpl implements PermissionService {
             throw new PermissionException("Permission topilmadi !!!");
         }
         responseDto.setSuccess(true);
-        responseDto.setRecordsTotal(permissionsRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setMessage("Permission muvaffaqiyatli qaytarildi !!!");
         responseDto.setData(mapper.map(permissions, PermissionsDto.class));
         return responseDto;

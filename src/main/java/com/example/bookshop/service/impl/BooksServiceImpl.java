@@ -28,7 +28,7 @@ public class BooksServiceImpl implements BooksService {
         booksRepository.save(books);
         responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvafaqqiyatli qo'shildi");
-        responseDto.setRecordsTotal(booksRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(books, BooksDto.class));
         return responseDto;
 
@@ -46,7 +46,7 @@ public class BooksServiceImpl implements BooksService {
         books.setQuantity(booksDto.getQuantity());
         responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvafaqqiyatli yangilandi");
-        responseDto.setRecordsTotal(booksRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setData(mapper.map(books, BooksDto.class));
         return responseDto;
     }
@@ -61,7 +61,7 @@ public class BooksServiceImpl implements BooksService {
         books.setIsDeleted(1);
         responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvafaqqiyatli o'chirildi !!!");
-        responseDto.setRecordsTotal(booksRepository.count());
+        responseDto.setRecordsTotal(1L);
         return responseDto;
     }
 
@@ -73,7 +73,7 @@ public class BooksServiceImpl implements BooksService {
             throw new BooksException("Kitob o'chirilgan");
         }
         responseDto.setSuccess(true);
-        responseDto.setRecordsTotal(booksRepository.count());
+        responseDto.setRecordsTotal(1L);
         responseDto.setMessage("Id orqali kitob qaytarildi");
         responseDto.setData(mapper.map(books, BooksDto.class));
         return responseDto;
