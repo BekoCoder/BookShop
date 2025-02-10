@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CommentService {
-    ResponseDto<CommentsDto> addComment(CommentsDto commentsDto, Long id);
+    ResponseDto<CommentsDto> addComment(CommentsDto commentsDto, Long bookId);
 
     ResponseDto<CommentsDto> updateComment(CommentsDto commentsDto, Long id);
 
