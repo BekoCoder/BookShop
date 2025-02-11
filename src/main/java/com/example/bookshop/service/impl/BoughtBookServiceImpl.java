@@ -36,20 +36,23 @@ public class BoughtBookServiceImpl implements BoughtBookService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         Books books = booksRepository.findById(bookId).orElseThrow(() -> new BooksException("Kitob topilmadi"));
-        if(books.getIsDeleted()==1){
+        if (books.getIsDeleted() == 1) {
             throw new BooksException("Kitob o'chirilgan");
         }
-        if(Objects.isNull(user) || user.getIsDeleted()==1){
+        if (Objects.isNull(user) || user.getIsDeleted() == 1) {
             throw new CustomException("Foydalanuvchi o'chirilgan !!!");
         }
-        if(books.getQuantity()<quantity){
+        if (books.getQuantity() < quantity) {
             throw new CustomException("Kiritilgan miqdor kitob miqdoridan katta !!!");
         }
-        BoughtBooks boughtBooks=new BoughtBooks();
+        BoughtBooks boughtBooks = new BoughtBooks();
         boughtBooks.setUser(user);
         boughtBooks.setBook(books);
-        boughtBooks.setTotalPrice(books.getPrice()*quantity);
+        boughtBooks.setTotalPrice(books.getPrice() * quantity);
         boughtBooks.setOrderStatus(OrderStatus.NEW);
+        boughtBooks.setCount(quantity);
+        books.setQuantity(books.getQuantity() - quantity);
+        booksRepository.save(books);
         boughBooksRepository.save(boughtBooks);
         responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvaffaqiyatli savatga qo'shildi");

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +24,11 @@ public class BooksController {
     private final BooksService booksService;
 
     @Operation(summary = "Kitob qo'shish")
-    @PostMapping("/create")
-    public ResponseEntity<ResponseDto<BooksDto>> createBook(@RequestBody BooksDto booksDto) {
+    @PostMapping("/create/{authorId}")
+    @PreAuthorize("hasRole('AUTHOR')")
+    public ResponseEntity<ResponseDto<BooksDto>> createBook(@RequestBody BooksDto booksDto, @PathVariable Long authorId) {
         log.info("Create book");
-        return ResponseEntity.ok(booksService.addBook(booksDto));
+        return ResponseEntity.ok(booksService.addBook(booksDto, authorId));
     }
 
     @Operation(summary = "Id orqali kitobni olish")

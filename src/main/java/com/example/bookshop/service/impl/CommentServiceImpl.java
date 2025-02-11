@@ -32,6 +32,9 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public ResponseDto<CommentsDto> addComment(CommentsDto commentsDto, Long bookId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new CustomException("Foydalanuvchi autentifikatsiya qilmagan !!!");
+        }
         User user = (User) authentication.getPrincipal();
         Books books = booksRepository.findById(bookId).orElseThrow(() -> new BooksException("Bunday kitob topilmadi !!!"));
         ResponseDto<CommentsDto> responseDto = new ResponseDto<>();

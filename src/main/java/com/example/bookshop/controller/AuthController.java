@@ -29,7 +29,7 @@ public class AuthController {
 
     @Operation(summary = "Foydalanuvchini login qilish")
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto<JwtResponceDto>> login(@RequestBody LoginRequestDto dto){
+    public ResponseEntity<ResponseDto<JwtResponceDto>> login(@RequestBody LoginRequestDto dto) {
         return ResponseEntity.ok(userService.login(dto));
     }
 

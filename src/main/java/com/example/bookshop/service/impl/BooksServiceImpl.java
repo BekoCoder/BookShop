@@ -2,8 +2,11 @@ package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.BooksDto;
 import com.example.bookshop.dto.ResponseDto;
+import com.example.bookshop.entity.Authors;
 import com.example.bookshop.entity.Books;
+import com.example.bookshop.exceptions.AuthorException;
 import com.example.bookshop.exceptions.BooksException;
+import com.example.bookshop.repository.AuthorRepository;
 import com.example.bookshop.repository.BooksRepository;
 import com.example.bookshop.service.BooksService;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +20,17 @@ import org.springframework.stereotype.Service;
 public class BooksServiceImpl implements BooksService {
     private final BooksRepository booksRepository;
     private final ModelMapper mapper;
+    private final AuthorRepository authorRepository;
 
     @Override
-    public ResponseDto<BooksDto> addBook(BooksDto booksDto) {
+    public ResponseDto<BooksDto> addBook(BooksDto booksDto, Long authorId) {
         ResponseDto<BooksDto> responseDto = new ResponseDto<>();
+        Authors authors = authorRepository.findById(authorId).orElseThrow(() -> new AuthorException("Bunda muallif mavjud emas !!!"));
         Books books = mapper.map(booksDto, Books.class);
         if (isBookExist(books.getTitle())) {
             throw new BooksException("Kitob allaqachon qo'shilgan !!!");
         }
+        books.setAuthors(authors);
         booksRepository.save(books);
         responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvafaqqiyatli qo'shildi");

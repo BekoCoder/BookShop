@@ -4,10 +4,13 @@ import com.example.bookshop.dto.JwtResponceDto;
 import com.example.bookshop.dto.LoginRequestDto;
 import com.example.bookshop.dto.ResponseDto;
 import com.example.bookshop.dto.UserDto;
+import com.example.bookshop.entity.Roles;
 import com.example.bookshop.entity.User;
 import com.example.bookshop.exceptions.CustomException;
+import com.example.bookshop.exceptions.RoleException;
 import com.example.bookshop.exceptions.UserNotFoundExceptions;
 import com.example.bookshop.jwt.JwtService;
+import com.example.bookshop.repository.RolesRepository;
 import com.example.bookshop.repository.UserRepository;
 import com.example.bookshop.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -24,10 +29,12 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RolesRepository repository;
 
     @Override
     public ResponseDto<UserDto> save(UserDto userDto) {
         ResponseDto<UserDto> responseDto = new ResponseDto<>();
+        Roles roles = repository.findById(1L).orElseThrow(() -> new RoleException("Bunday role topilmadi"));
         User user = mapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         if (!checkPassword(userDto.getPassword())) {
@@ -36,6 +43,7 @@ public class UserServiceImpl implements UserService {
         if (isExistUser(userDto.getUsername())) {
             throw new CustomException("Bunday foydalanuvchi oldin ro'yhatdan o'tgan!!! ");
         }
+        user.setRoles(List.of(roles));
         userRepository.save(user);
         responseDto.setSuccess(true);
         responseDto.setMessage("Foydalanuvchi saqlandi");
