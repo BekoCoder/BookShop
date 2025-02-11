@@ -106,7 +106,7 @@ public class RoleServiceImpl implements RoleService {
         user.setRoles(roles1);
         userRepository.save(user);
         responseDto.setSuccess(true);
-        responseDto.setMessage("Role qaytarildi !!!");
+        responseDto.setMessage("Role foydalanuvchiga biriktirildi !!!");
         responseDto.setRecordsTotal(1L);
         return responseDto;
     }
