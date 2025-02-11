@@ -44,7 +44,7 @@ public class User extends AbstractEntity implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role-> new SimpleGrantedAuthority("ROLE_" + role.getName())).toList();
+        return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName())).toList();
     }
 
     @Override

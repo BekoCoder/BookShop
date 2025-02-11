@@ -16,4 +16,6 @@ public interface AuthorsService {
 
     Page<AuthorsDto> getAuthors(Pageable pageable);
 
+    ResponseDto<String> assignBookToAuthor(Long bookId, Long authorId);
+
 }

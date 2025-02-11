@@ -23,7 +23,6 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final BooksService booksService;
 
     @Operation(summary = "Foydalanuvchilarni id orqali olish")
     @GetMapping("/get-by-id/{id}")

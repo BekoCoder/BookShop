@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BooksService {
-    ResponseDto<BooksDto> addBook(BooksDto booksDto);
+    ResponseDto<BooksDto> addBook(BooksDto booksDto, Long authorId);
 
     ResponseDto<BooksDto> updateBook(BooksDto booksDto, Long id);
 

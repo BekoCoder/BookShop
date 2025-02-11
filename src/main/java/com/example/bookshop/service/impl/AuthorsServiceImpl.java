@@ -3,8 +3,11 @@ package com.example.bookshop.service.impl;
 import com.example.bookshop.dto.AuthorsDto;
 import com.example.bookshop.dto.ResponseDto;
 import com.example.bookshop.entity.Authors;
+import com.example.bookshop.entity.Books;
 import com.example.bookshop.exceptions.AuthorException;
+import com.example.bookshop.exceptions.BooksException;
 import com.example.bookshop.repository.AuthorRepository;
+import com.example.bookshop.repository.BooksRepository;
 import com.example.bookshop.service.AuthorsService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class AuthorsServiceImpl implements AuthorsService {
     private final AuthorRepository authorRepository;
     private final ModelMapper mapper;
+    private final BooksRepository booksRepository;
 
     @Override
     public ResponseDto<AuthorsDto> addAuthor(AuthorsDto authorsDto) {
@@ -78,6 +82,25 @@ public class AuthorsServiceImpl implements AuthorsService {
         responseDto.setData(mapper.map(authors, AuthorsDto.class));
         return responseDto;
 
+    }
+
+    @Override
+    public ResponseDto<String> assignBookToAuthor(Long bookId, Long authorId) {
+        Authors authors = authorRepository.findById(authorId).orElseThrow(() -> new AuthorException("Avtor topilmadi !!!"));
+        Books books = booksRepository.findById(bookId).orElseThrow(() -> new BooksException("Kitob topilmadi"));
+        if (books.getIsDeleted() == 1) {
+            throw new BooksException("Kitob o'chirilgan !!!");
+        }
+        if (authors.getIsDeleted() == 1) {
+            throw new AuthorException("Avtor o'chirilgan !!!");
+        }
+        books.setAuthors(authors);
+        booksRepository.save(books);
+        ResponseDto<String> responseDto = new ResponseDto<>();
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Muallif nomi: " + authors.getName());
+        responseDto.setRecordsTotal(1L);
+        return responseDto;
     }
 
     @Override

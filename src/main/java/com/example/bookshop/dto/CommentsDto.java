@@ -8,8 +8,4 @@ import lombok.Data;
 public class CommentsDto {
     private String comments;
 
-    @Schema(description = "Izoh qo'shgan foydalanuvchi")
-    private UserDto user;
-
-
 }

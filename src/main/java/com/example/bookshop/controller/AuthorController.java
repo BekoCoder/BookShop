@@ -62,4 +62,11 @@ public class AuthorController {
         log.trace("Returned front-end /author/delete-by-id/{}", id);
         return ResponseEntity.ok(responseDto);
     }
+
+    @Operation(summary = "Kitobni muallifga biriktirish")
+    @PutMapping("/assign/{bookId}/{authorId}")
+    public ResponseEntity<ResponseDto<String>> assign(@PathVariable("bookId") Long bookId, @PathVariable("authorId") Long authorId) {
+        log.trace("Accessing /author/assign/{}", authorId);
+        return ResponseEntity.ok(authorsService.assignBookToAuthor(bookId, authorId));
+    }
 }
