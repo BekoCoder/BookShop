@@ -1,8 +1,9 @@
 package com.example.bookshop.controller;
 
 import com.example.bookshop.dto.ResponseDto;
+import com.example.bookshop.dto.UserBasicDto;
 import com.example.bookshop.dto.UserDto;
-import com.example.bookshop.service.BooksService;
+import com.example.bookshop.repository.dao.UserWeekDao;
 import com.example.bookshop.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +22,7 @@ import java.util.List;
 @Tag(name = "admin-controller", description = "Admin Panel uchun API lar")
 @Slf4j
 public class AdminController {
-
+    private final UserWeekDao userWeekDao;
     private final UserService userService;
 
     @Operation(summary = "Foydalanuvchilarni id orqali olish")
@@ -56,6 +57,14 @@ public class AdminController {
         Page<UserDto> page = userService.getAllUser(pageable);
         log.trace("Returned to fron-end: {} ", page.getSize());
         return ResponseEntity.ok(page.getContent());
+    }
+
+
+    @Operation(summary = "Oxirgi haftada ro'yhatdan o'tgan foydalanuvchilar")
+    @GetMapping("/get")
+    public ResponseEntity<List<UserBasicDto>> getUsers() {
+        log.trace("Accessing GET /admin/get");
+        return ResponseEntity.ok(userWeekDao.getLastWeek());
     }
 
 

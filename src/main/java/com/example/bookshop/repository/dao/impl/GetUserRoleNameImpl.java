@@ -28,6 +28,7 @@ public class GetUserRoleNameImpl implements GetUserRoleName {
             return (String) nativeQuery.getSingleResult();
         } catch (Exception e) {
             return null;
+
         }
     }
 }
