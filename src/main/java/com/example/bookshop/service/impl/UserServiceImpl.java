@@ -1,9 +1,6 @@
 package com.example.bookshop.service.impl;
 
-import com.example.bookshop.dto.JwtResponceDto;
-import com.example.bookshop.dto.LoginRequestDto;
-import com.example.bookshop.dto.ResponseDto;
-import com.example.bookshop.dto.UserDto;
+import com.example.bookshop.dto.*;
 import com.example.bookshop.entity.Roles;
 import com.example.bookshop.entity.User;
 import com.example.bookshop.exceptions.CustomException;
@@ -12,6 +9,7 @@ import com.example.bookshop.exceptions.UserNotFoundExceptions;
 import com.example.bookshop.jwt.JwtService;
 import com.example.bookshop.repository.RolesRepository;
 import com.example.bookshop.repository.UserRepository;
+import com.example.bookshop.repository.dao.UserWeekDao;
 import com.example.bookshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final RolesRepository repository;
+    private final UserWeekDao userWeekDao;
 
     @Override
     public ResponseDto<UserDto> save(UserDto userDto) {
@@ -134,6 +133,11 @@ public class UserServiceImpl implements UserService {
         responseDto.setMessage("Foydalanuvchi muvafaqqiyatli o'chirildi !!!");
         responseDto.setRecordsTotal(1L);
         return responseDto;
+    }
+
+    @Override
+    public List<UserBasicDto> userWeek() {
+        return userWeekDao.getLastWeek();
     }
 
     @Override

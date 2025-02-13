@@ -1,6 +1,3 @@
-#server:
-#  port: 8081
-
 spring:
   application:
     name: Bookshop
@@ -43,20 +40,3 @@ springdoc:
     operations-sorter: method
     path: /docs
 
-
-
-#logging:
-#  level:
-#    org.hibernate.orm.connections.pooling: OFF
-#    com.zaxxer.hikari.HikariDataSource: OFF
-#    com.zaxxer.hikari.pool.HikariPool: OFF
-
-#    loging levelni pastdaki consolda chiqqani uchun yozilgan (OFF)
-
-#    Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-#    Database driver: undefined/unknown
-#    Database version: 21.3
-#    Autocommit mode: undefined/unknown
-#    Isolation level: undefined/unknown
-#    Minimum pool size: undefined/unknown
-#    Maximum pool size: undefined/unknown
