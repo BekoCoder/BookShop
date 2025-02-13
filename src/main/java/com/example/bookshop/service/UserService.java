@@ -1,11 +1,10 @@
 package com.example.bookshop.service;
 
-import com.example.bookshop.dto.JwtResponceDto;
-import com.example.bookshop.dto.LoginRequestDto;
-import com.example.bookshop.dto.ResponseDto;
-import com.example.bookshop.dto.UserDto;
+import com.example.bookshop.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -22,4 +21,6 @@ public interface UserService {
     ResponseDto<String> deleteById(Long id);
 
     boolean isExistUser(String username);
+
+    List<UserBasicDto> userWeek();
 }

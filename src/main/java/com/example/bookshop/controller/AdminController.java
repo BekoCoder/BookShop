@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "admin-controller", description = "Admin Panel uchun API lar")
 @Slf4j
 public class AdminController {
-    private final UserWeekDao userWeekDao;
+
     private final UserService userService;
 
     @Operation(summary = "Foydalanuvchilarni id orqali olish")
@@ -64,7 +64,7 @@ public class AdminController {
     @GetMapping("/get")
     public ResponseEntity<List<UserBasicDto>> getUsers() {
         log.trace("Accessing GET /admin/get");
-        return ResponseEntity.ok(userWeekDao.getLastWeek());
+        return ResponseEntity.ok(userService.userWeek());
     }
 
 
