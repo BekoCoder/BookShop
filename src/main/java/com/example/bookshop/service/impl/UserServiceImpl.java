@@ -9,6 +9,7 @@ import com.example.bookshop.exceptions.UserNotFoundExceptions;
 import com.example.bookshop.jwt.JwtService;
 import com.example.bookshop.repository.RolesRepository;
 import com.example.bookshop.repository.UserRepository;
+import com.example.bookshop.repository.dao.UserDao;
 import com.example.bookshop.repository.dao.UserWeekDao;
 import com.example.bookshop.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final RolesRepository repository;
     private final UserWeekDao userWeekDao;
+    private final UserDao userDao;
 
     @Override
     public ResponseDto<UserDto> save(UserDto userDto) {
@@ -138,6 +140,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserBasicDto> userWeek() {
         return userWeekDao.getLastWeek();
+    }
+
+    @Override
+    public ResponseDto<List<UserBookDto>> getUserBooks(Long userId) {
+        ResponseDto<List<UserBookDto>> responseDto = new ResponseDto<>();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundExceptions("Foydalanuvchi topilmadi"));
+        if (user.getIsDeleted() == 1) {
+            throw new CustomException("Foydalanuvchi topilmadi");
+        }
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Foydalanuvchi kitoblari topildi");
+        responseDto.setRecordsTotal(1L);
+        responseDto.setData(userDao.getUserBooks(userId));
+        return responseDto;
+
     }
 
     @Override

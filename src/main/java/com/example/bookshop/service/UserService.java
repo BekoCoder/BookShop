@@ -23,4 +23,6 @@ public interface UserService {
     boolean isExistUser(String username);
 
     List<UserBasicDto> userWeek();
+
+    ResponseDto<List<UserBookDto>> getUserBooks(Long userId);
 }

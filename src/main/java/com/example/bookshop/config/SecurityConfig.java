@@ -50,7 +50,7 @@ public class SecurityConfig {
                                 .requestMatchers("/book/**").hasAnyRole("ADMIN", "AUTHOR")
                                 .requestMatchers("/author/**").permitAll()
                                 .requestMatchers("/role/**").permitAll()
-                                .requestMatchers("/bought-books/**").hasRole("USER")
+                                .requestMatchers("/bought-books/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/comments/**").hasRole("USER")
                                 .anyRequest().authenticated()
                 )

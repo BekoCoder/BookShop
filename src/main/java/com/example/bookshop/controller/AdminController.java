@@ -2,8 +2,8 @@ package com.example.bookshop.controller;
 
 import com.example.bookshop.dto.ResponseDto;
 import com.example.bookshop.dto.UserBasicDto;
+import com.example.bookshop.dto.UserBookDto;
 import com.example.bookshop.dto.UserDto;
-import com.example.bookshop.repository.dao.UserWeekDao;
 import com.example.bookshop.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,6 +65,13 @@ public class AdminController {
     public ResponseEntity<List<UserBasicDto>> getUsers() {
         log.trace("Accessing GET /admin/get");
         return ResponseEntity.ok(userService.userWeek());
+    }
+
+    @Operation(summary = "Kitob sotib olganlarni ko'rish")
+    @GetMapping("/get-bought-books/{userId}")
+    public ResponseEntity<ResponseDto<List<UserBookDto>>> getBoughtBooks(@PathVariable Long userId) {
+        log.trace("Accessing GET /admin/get-bought-books/{}", userId);
+        return ResponseEntity.ok(userService.getUserBooks(userId));
     }
 
 

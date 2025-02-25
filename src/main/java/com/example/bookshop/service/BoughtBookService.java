@@ -15,4 +15,6 @@ public interface BoughtBookService {
     ResponseDto<BoughtBooksDto> get(Long id);
 
     Page<BoughtBooksDto> getAll(Pageable pageable);
+
+    ResponseDto<String> checkOut(Long boughtBookId);
 }
