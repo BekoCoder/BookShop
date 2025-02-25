@@ -96,4 +96,26 @@ public class BoughtBookServiceImpl implements BoughtBookService {
     public Page<BoughtBooksDto> getAll(Pageable pageable) {
         return boughBooksRepository.findAllByIsDeleted(pageable, 0).map(e -> mapper.map(e, BoughtBooksDto.class));
     }
+
+    @Override
+    public ResponseDto<String> checkOut(Long boughtBookId) {
+        ResponseDto<String> responseDto = new ResponseDto<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user =(User) authentication.getPrincipal();
+        BoughtBooks boughtBooks = boughBooksRepository.findById(boughtBookId).orElseThrow(() -> new BooksException("Kitob topilmadi"));
+        if (boughtBooks.getIsDeleted() == 1) {
+            throw new BooksException("Kitob o'chirilgan");
+        }
+        if (Objects.isNull(user) || user.getIsDeleted() == 1) {
+            throw new CustomException("Foydalanuvchi o'chirilgan !!!");
+        }
+        if(!Objects.equals(user.getId(), boughtBooks.getUser().getId())){
+            throw new CustomException("Sizga tegishli emas !!!");
+        }
+        boughtBooks.setOrderStatus(OrderStatus.COMPLETED);
+        boughBooksRepository.save(boughtBooks);
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Kitob muvaffaqiyatli sotib olindi");
+        return responseDto;
+    }
 }

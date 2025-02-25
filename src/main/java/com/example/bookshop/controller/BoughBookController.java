@@ -20,7 +20,7 @@ import java.util.List;
 public class BoughBookController {
     private final BoughtBookService boughtBookService;
 
-    @Operation(summary = "Kitob sotib olish")
+    @Operation(summary = "Kitobni savatga qo'shish")
     @PostMapping("/save/{id}")
     public ResponseEntity<ResponseDto<String>> save(@PathVariable Long id, @RequestParam(name = "quantity") Integer quantity) {
         return ResponseEntity.ok(boughtBookService.save(id, quantity));
@@ -38,5 +38,11 @@ public class BoughBookController {
         Page<BoughtBooksDto> page = boughtBookService.getAll(pageable);
         return ResponseEntity.ok(page.getContent());
 
+    }
+
+    @Operation(summary = "Kitob sotib olish")
+    @PostMapping("/checkout/{boughBookId}")
+    public ResponseEntity<ResponseDto<String>> checkout(@PathVariable Long boughBookId) {
+        return ResponseEntity.ok(boughtBookService.checkOut(boughBookId));
     }
 }
