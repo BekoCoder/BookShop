@@ -149,12 +149,28 @@ public class UserServiceImpl implements UserService {
         if (user.getIsDeleted() == 1) {
             throw new CustomException("Foydalanuvchi topilmadi");
         }
+        List<UserBookDto> userBooks = userDao.getUserBooks(userId);
         responseDto.setSuccess(true);
         responseDto.setMessage("Foydalanuvchi kitoblari topildi");
-        responseDto.setRecordsTotal(1L);
-        responseDto.setData(userDao.getUserBooks(userId));
+        responseDto.setRecordsTotal(userBooks.size());
+        responseDto.setData(userBooks);
         return responseDto;
 
+    }
+
+    @Override
+    public ResponseDto<List<UserDto>> getEveryMonthUsers(Integer month) {
+        ResponseDto<List<UserDto>> responseDto = new ResponseDto<>();
+        List<UserDto> users = userDao.getEveryMonthUser(month);
+        if (users.isEmpty()) {
+            throw new CustomException("Bu oyda ro'yhatdan o'tgan foydalanuvchilar topilmadi !!!");
+        }
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Foydalanuvchilar topildi");
+        responseDto.setRecordsTotal(users.size());
+        responseDto.setData(users);
+
+        return responseDto;
     }
 
     @Override
