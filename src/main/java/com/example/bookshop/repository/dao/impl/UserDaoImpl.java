@@ -1,6 +1,7 @@
 package com.example.bookshop.repository.dao.impl;
 
 import com.example.bookshop.dto.UserBookDto;
+import com.example.bookshop.dto.UserDto;
 import com.example.bookshop.repository.dao.UserDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -24,7 +25,6 @@ public class UserDaoImpl implements UserDao {
                 INNER JOIN user_role ur ON u.id = ur.user_id
                 INNER JOIN Roles r ON ur.role_id = r.id
                 WHERE r.name = 'AUTHOR' AND u.id = :userId
-                
                 """;
         Query nativeQuery = entityManager.createNativeQuery(sql);
         nativeQuery.setParameter("userId", userId);
@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDao {
                 from USERS u
                          inner join BOUGHT_BOOKS b on u.ID = b.USERS_ID
                          inner join BOOKS p on b.BOOKS_ID = p.ID
-                    and u.id = :userId;
+                    and u.id = :userId
                 """;
         List<Object[]> resultList = entityManager.createNativeQuery(sql)
                 .setParameter("userId", userId)
@@ -61,5 +61,24 @@ public class UserDaoImpl implements UserDao {
             result.add(dto);
         }
         return result;
+    }
+
+    @Override
+    public List<UserDto> getEveryMonthUser(Integer month) {
+        String sql = """
+                SELECT FIRST_NAME, LAST_NAME, USERNAME
+                FROM USERS
+                WHERE EXTRACT(MONTH FROM CREATED_DATE) = :month
+                """;
+        List<Object[]> objects = entityManager.createNativeQuery(sql).setParameter("month", month).getResultList();
+        List<UserDto> dto = new ArrayList<>();
+        for (Object[] ob : objects) {
+            UserDto userDto = new UserDto();
+            userDto.setFirstName((String) ob[0]);
+            userDto.setLastName((String) ob[1]);
+            userDto.setUsername((String) ob[2]);
+            dto.add(userDto);
+        }
+        return dto;
     }
 }

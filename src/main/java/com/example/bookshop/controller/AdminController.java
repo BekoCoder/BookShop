@@ -74,5 +74,12 @@ public class AdminController {
         return ResponseEntity.ok(userService.getUserBooks(userId));
     }
 
+    @Operation(summary = "Har bir oyda ro'yhatdan o'tgan foydalanuvchilar")
+    @GetMapping("/get-monthly-users")
+    public ResponseEntity<ResponseDto<List<UserDto>>> getMonthlyUsers(@RequestParam(name = "month") Integer month) {
+        log.trace("Accessing GET /admin/get-monthly-users");
+        return ResponseEntity.ok(userService.getEveryMonthUsers(month));
+    }
+
 
 }

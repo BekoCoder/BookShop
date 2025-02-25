@@ -25,4 +25,6 @@ public interface UserService {
     List<UserBasicDto> userWeek();
 
     ResponseDto<List<UserBookDto>> getUserBooks(Long userId);
+
+    ResponseDto<List<UserDto>> getEveryMonthUsers(Integer month);
 }
