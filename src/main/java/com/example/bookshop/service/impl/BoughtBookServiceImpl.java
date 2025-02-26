@@ -68,7 +68,8 @@ public class BoughtBookServiceImpl implements BoughtBookService {
     @Override
     public ResponseDto<String> delete(Long id) {
         ResponseDto<String> responseDto = new ResponseDto<>();
-        BoughtBooks boughtBooks = boughBooksRepository.findById(id).orElseThrow(() -> new BooksException("Kitob topilmadi"));
+        BoughtBooks boughtBooks = boughBooksRepository.findById(id)
+                .orElseThrow(() -> new BooksException("Kitob topilmadi"));
         if (boughtBooks.getIsDeleted() == 1) {
             throw new BooksException("Kitob o'chirilgan");
         }
@@ -81,7 +82,8 @@ public class BoughtBookServiceImpl implements BoughtBookService {
     @Override
     public ResponseDto<BoughtBooksDto> get(Long id) {
         ResponseDto<BoughtBooksDto> responseDto = new ResponseDto<>();
-        BoughtBooks boughtBooks = boughBooksRepository.findById(id).orElseThrow(() -> new BooksException("Kitob topilmadi"));
+        BoughtBooks boughtBooks = boughBooksRepository.findById(id)
+                .orElseThrow(() -> new BooksException("Kitob topilmadi"));
         if (boughtBooks.getIsDeleted() == 1) {
             throw new BooksException("Kitob o'chirilgan");
         }
@@ -94,14 +96,15 @@ public class BoughtBookServiceImpl implements BoughtBookService {
 
     @Override
     public Page<BoughtBooksDto> getAll(Pageable pageable) {
-        return boughBooksRepository.findAllByIsDeleted(pageable, 0).map(e -> mapper.map(e, BoughtBooksDto.class));
+        return boughBooksRepository.findAllByIsDeleted(pageable, 0)
+                .map(e -> mapper.map(e, BoughtBooksDto.class));
     }
 
     @Override
     public ResponseDto<String> checkOut(Long boughtBookId) {
         ResponseDto<String> responseDto = new ResponseDto<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user =(User) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         BoughtBooks boughtBooks = boughBooksRepository.findById(boughtBookId).orElseThrow(() -> new BooksException("Kitob topilmadi"));
         if (boughtBooks.getIsDeleted() == 1) {
             throw new BooksException("Kitob o'chirilgan");
@@ -109,13 +112,45 @@ public class BoughtBookServiceImpl implements BoughtBookService {
         if (Objects.isNull(user) || user.getIsDeleted() == 1) {
             throw new CustomException("Foydalanuvchi o'chirilgan !!!");
         }
-        if(!Objects.equals(user.getId(), boughtBooks.getUser().getId())){
+        if (!Objects.equals(user.getId(), boughtBooks.getUser().getId())) {
             throw new CustomException("Sizga tegishli emas !!!");
+        }
+        if (boughtBooks.getOrderStatus() == OrderStatus.COMPLETED) {
+            throw new CustomException("Bu kitob allaqachon sotib olgansiz !!!");
         }
         boughtBooks.setOrderStatus(OrderStatus.COMPLETED);
         boughBooksRepository.save(boughtBooks);
         responseDto.setSuccess(true);
         responseDto.setMessage("Kitob muvaffaqiyatli sotib olindi");
+        return responseDto;
+    }
+
+    @Override
+    public ResponseDto<String> cancel(Long boughtBookId) {
+        ResponseDto<String> responseDto = new ResponseDto<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        BoughtBooks boughtBooks = boughBooksRepository.findById(boughtBookId)
+                .orElseThrow(() -> new BooksException("Kitob topilmadi"));
+        Books book = boughtBooks.getBook();
+        if (boughtBooks.getIsDeleted() == 1) {
+            throw new BooksException("Kitob o'chirilgan");
+        }
+        if (Objects.isNull(user) || user.getIsDeleted() == 1) {
+            throw new CustomException("Foydalanuvchi o'chirilgan !!!");
+        }
+        if (!Objects.equals(user.getId(), boughtBooks.getUser().getId())) {
+            throw new CustomException("Sizga tegishli emas !!!");
+        }
+        if (boughtBooks.getOrderStatus() == OrderStatus.COMPLETED) {
+            throw new CustomException("Bu kitob allaqachon sotib olgansiz !!!");
+        }
+        book.setQuantity(boughtBooks.getCount()+book.getQuantity());
+        booksRepository.save(book);
+        boughtBooks.setOrderStatus(OrderStatus.CANCELED);
+        boughBooksRepository.save(boughtBooks);
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Kitob muvaffaqiyatli bekor qilindi");
         return responseDto;
     }
 }

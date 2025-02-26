@@ -1,10 +1,12 @@
 package com.example.bookshop.repository.dao.impl;
 
+import com.example.bookshop.dto.BasicDto;
 import com.example.bookshop.dto.UserBookDto;
 import com.example.bookshop.dto.UserDto;
 import com.example.bookshop.repository.dao.UserDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -80,5 +82,26 @@ public class UserDaoImpl implements UserDao {
             dto.add(userDto);
         }
         return dto;
+    }
+
+    @Override
+    public List<BasicDto> mostActiveUsers() {
+        String sql = """
+                select CAST(MAX(b.USERS_ID) as NUMBER) as user_id, CAST(COUNT((b.USERS_ID)) as number) as book_count, u.FIRST_NAME, u.LAST_NAME
+                from BOUGHT_BOOKS b inner join USERS u on b.USERS_ID = u.ID group by b.USERS_ID, u.FIRST_NAME, u.LAST_NAME 
+                order by COUNT((b.USERS_ID)) desc fetch first 1 row only
+                """;
+        List<Tuple> resultList = entityManager.createNativeQuery(sql, Tuple.class).getResultList();
+        List<BasicDto> result = new ArrayList<>();
+        for (Tuple row : resultList) {
+            BasicDto dto = new BasicDto(
+                    row.get("user_id", Number.class).longValue(),
+                    row.get("book_count", Number.class).intValue(),
+                    row.get("FIRST_NAME", String.class),
+                    row.get("LAST_NAME", String.class)
+            );
+            result.add(dto);
+        }
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.bookshop.repository.dao;
 
+import com.example.bookshop.dto.BasicDto;
 import com.example.bookshop.dto.UserBookDto;
 import com.example.bookshop.dto.UserDto;
 
@@ -11,4 +12,6 @@ public interface UserDao {
     List<UserBookDto> getUserBooks(Long userId);
 
     List<UserDto> getEveryMonthUser(Integer month);
+
+    List<BasicDto> mostActiveUsers();
 }

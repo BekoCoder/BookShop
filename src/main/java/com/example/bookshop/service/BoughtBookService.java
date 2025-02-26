@@ -17,4 +17,6 @@ public interface BoughtBookService {
     Page<BoughtBooksDto> getAll(Pageable pageable);
 
     ResponseDto<String> checkOut(Long boughtBookId);
+
+    ResponseDto<String> cancel(Long boughtBookId);
 }

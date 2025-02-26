@@ -174,6 +174,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseDto<List<BasicDto>> mostActiveUsers() {
+        ResponseDto<List<BasicDto>> responseDto = new ResponseDto<>();
+        List<BasicDto> basicDtos = userDao.mostActiveUsers();
+        if (basicDtos.isEmpty()) {
+            throw new CustomException("Foydalanuvchilar topilmadi");
+        }
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Foydalanuvchilar topildi");
+        responseDto.setRecordsTotal(basicDtos.size());
+        responseDto.setData(basicDtos);
+        return responseDto;
+    }
+
+    @Override
     public boolean isExistUser(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
