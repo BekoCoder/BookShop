@@ -45,4 +45,11 @@ public class BoughBookController {
     public ResponseEntity<ResponseDto<String>> checkout(@PathVariable Long boughBookId) {
         return ResponseEntity.ok(boughtBookService.checkOut(boughBookId));
     }
+
+    @Operation(summary = "Kitob sotib olishni bekor qilish")
+    @PutMapping("/cancel/{boughBookId}")
+    public ResponseEntity<ResponseDto<String>> cancel(@PathVariable Long boughBookId) {
+        return ResponseEntity.ok(boughtBookService.cancel(boughBookId));
+    }
+
 }

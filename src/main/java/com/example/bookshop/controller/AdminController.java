@@ -1,9 +1,6 @@
 package com.example.bookshop.controller;
 
-import com.example.bookshop.dto.ResponseDto;
-import com.example.bookshop.dto.UserBasicDto;
-import com.example.bookshop.dto.UserBookDto;
-import com.example.bookshop.dto.UserDto;
+import com.example.bookshop.dto.*;
 import com.example.bookshop.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -79,6 +76,13 @@ public class AdminController {
     public ResponseEntity<ResponseDto<List<UserDto>>> getMonthlyUsers(@RequestParam(name = "month") Integer month) {
         log.trace("Accessing GET /admin/get-monthly-users");
         return ResponseEntity.ok(userService.getEveryMonthUsers(month));
+    }
+
+    @Operation(summary = "Eng faol foydalanuvchilarni ko'rish")
+    @GetMapping("/most-active-users")
+    public ResponseEntity<ResponseDto<List<BasicDto>>> mostActiveUsers() {
+        log.trace("Accessing GET /admin/most-active-users");
+        return ResponseEntity.ok(userService.mostActiveUsers());
     }
 
 
