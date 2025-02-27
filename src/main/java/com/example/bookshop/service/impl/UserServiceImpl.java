@@ -10,7 +10,6 @@ import com.example.bookshop.jwt.JwtService;
 import com.example.bookshop.repository.RolesRepository;
 import com.example.bookshop.repository.UserRepository;
 import com.example.bookshop.repository.dao.UserDao;
-import com.example.bookshop.repository.dao.UserWeekDao;
 import com.example.bookshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,7 +28,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final RolesRepository repository;
-    private final UserWeekDao userWeekDao;
     private final UserDao userDao;
 
     @Override
@@ -139,7 +137,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserBasicDto> userWeek() {
-        return userWeekDao.getLastWeek();
+        return userDao.getLastWeek();
     }
 
     @Override
@@ -150,6 +148,9 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("Foydalanuvchi topilmadi");
         }
         List<UserBookDto> userBooks = userDao.getUserBooks(userId);
+        if(userBooks.isEmpty()){
+            throw new CustomException("Foydalanuvchi hali kitob olmagan");
+        }
         responseDto.setSuccess(true);
         responseDto.setMessage("Foydalanuvchi kitoblari topildi");
         responseDto.setRecordsTotal(userBooks.size());

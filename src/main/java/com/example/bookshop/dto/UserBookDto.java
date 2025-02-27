@@ -1,11 +1,18 @@
 package com.example.bookshop.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
 @Schema(description = "Foydalanuvchi kitoblarini ko'rish uchun DTO")
+@Entity
 public class UserBookDto {
+    @Id
+    @Schema(description = "Unikal kod")
+    private Long id;
+
     @Schema(description = "FirstName")
     private String firstName;
 
