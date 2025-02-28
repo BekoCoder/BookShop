@@ -170,7 +170,6 @@ public class UserServiceImpl implements UserService {
         responseDto.setMessage("Foydalanuvchilar topildi");
         responseDto.setRecordsTotal(users.size());
         responseDto.setData(users);
-
         return responseDto;
     }
 
@@ -185,6 +184,20 @@ public class UserServiceImpl implements UserService {
         responseDto.setMessage("Foydalanuvchilar topildi");
         responseDto.setRecordsTotal(basicDtos.size());
         responseDto.setData(basicDtos);
+        return responseDto;
+    }
+
+    @Override
+    public ResponseDto<List<UserBuyDto>> getUserBuys() {
+        ResponseDto<List<UserBuyDto>> responseDto = new ResponseDto<>();
+        List<UserBuyDto> userBuyDtos = userDao.getUserBuys();
+        if(userBuyDtos.isEmpty()){
+            throw new CustomException("Savat hali bo'sh");
+        }
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Savat qaytarildi");
+        responseDto.setRecordsTotal(userBuyDtos.size());
+        responseDto.setData(userBuyDtos);
         return responseDto;
     }
 

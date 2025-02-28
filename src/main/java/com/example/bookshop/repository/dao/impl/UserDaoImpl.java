@@ -1,9 +1,6 @@
 package com.example.bookshop.repository.dao.impl;
 
-import com.example.bookshop.dto.BasicDto;
-import com.example.bookshop.dto.UserBasicDto;
-import com.example.bookshop.dto.UserBookDto;
-import com.example.bookshop.dto.UserDto;
+import com.example.bookshop.dto.*;
 import com.example.bookshop.repository.dao.UserDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -81,15 +78,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<BasicDto> mostActiveUsers() {
         String sql = """
-                select CAST(MAX(b.USERS_ID) as NUMBER) as user_id, 
-                       CAST(COUNT((b.USERS_ID)) as number) as book_count,
-                       u.ID,
-                       u.FIRST_NAME, 
-                       u.LAST_NAME
-                from BOUGHT_BOOKS b 
-                inner join USERS u on b.USERS_ID = u.ID 
+                select u.ID,
+                 CAST(COUNT((b.USERS_ID)) as number) as book_count,
+                 u.FIRST_NAME,
+                 u.LAST_NAME
+                 from BOUGHT_BOOKS b
+                 inner join USERS u on b.USERS_ID = u.ID
+                 where b.ORDER_STATUS = 'COMPLETED'
                 group by b.USERS_ID, u.FIRST_NAME, u.LAST_NAME, u.ID
-                order by COUNT((b.USERS_ID)) desc fetch first 1 row only
+                order by COUNT((b.USERS_ID)) desc fetch first (SELECT COUNT(*) FROM USERS) row only
                 """;
         Query query = entityManager.createNativeQuery(sql, BasicDto.class);
         return query.getResultList();
@@ -108,6 +105,24 @@ public class UserDaoImpl implements UserDao {
                 """;
 
         Query query = entityManager.createNativeQuery(sql, UserBasicDto.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<UserBuyDto> getUserBuys() {
+        String sql = """
+                SELECT u.ID,
+                       u.FIRST_NAME,
+                       u.LAST_NAME,
+                       SUM(b.TOTAL_PRICE) AS total_price
+                FROM USERS u
+                JOIN BOUGHT_BOOKS b ON u.ID = b.USERS_ID 
+                where b.ORDER_STATUS='COMPLETED'
+                group by u.ID, u.FIRST_NAME, u.LAST_NAME
+                order by total_price desc fetch first 
+                (SELECT COUNT(*) FROM USERS) row only
+                """;
+        Query query = entityManager.createNativeQuery(sql, UserBuyDto.class);
         return query.getResultList();
     }
 }
