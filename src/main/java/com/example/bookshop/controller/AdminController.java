@@ -78,11 +78,18 @@ public class AdminController {
         return ResponseEntity.ok(userService.getEveryMonthUsers(month));
     }
 
-    @Operation(summary = "Eng faol foydalanuvchilarni ko'rish")
+    @Operation(summary = "Eng faol foydalanuvchilarni ko'rish. Bunda eng ko'p kitob olgan foydalanuvchilarni ko'rish")
     @GetMapping("/most-active-users")
     public ResponseEntity<ResponseDto<List<BasicDto>>> mostActiveUsers() {
         log.trace("Accessing GET /admin/most-active-users");
         return ResponseEntity.ok(userService.mostActiveUsers());
+    }
+
+    @Operation(summary = "Eng faol foydalanuvchilarni ko'rish. Bunda foydalanuvchilarning eng summada kitob olganlarini ko'rish")
+    @GetMapping("/most-active-users-by-sum")
+    public ResponseEntity<ResponseDto<List<UserBuyDto>>> mostActiveUsersBySum() {
+        log.trace("Accessing GET /admin/most-active-users-by-sum");
+        return ResponseEntity.ok(userService.getUserBuys());
     }
 
 

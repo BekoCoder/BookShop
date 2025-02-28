@@ -1,9 +1,6 @@
 package com.example.bookshop.repository.dao;
 
-import com.example.bookshop.dto.BasicDto;
-import com.example.bookshop.dto.UserBasicDto;
-import com.example.bookshop.dto.UserBookDto;
-import com.example.bookshop.dto.UserDto;
+import com.example.bookshop.dto.*;
 
 import java.util.List;
 
@@ -17,4 +14,6 @@ public interface UserDao {
     List<BasicDto> mostActiveUsers();
 
     List<UserBasicDto> getLastWeek();
+
+    List<UserBuyDto> getUserBuys();
 }

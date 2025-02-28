@@ -188,6 +188,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseDto<List<UserBuyDto>> getUserBuys() {
+        ResponseDto<List<UserBuyDto>> responseDto = new ResponseDto<>();
+        List<UserBuyDto> userBuyDtos = userDao.getUserBuys();
+        if(userBuyDtos.isEmpty()){
+            throw new CustomException("Savat hali bo'sh");
+        }
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Savat qaytarildi");
+        responseDto.setRecordsTotal(userBuyDtos.size());
+        responseDto.setData(userBuyDtos);
+        return responseDto;
+    }
+
+    @Override
     public boolean isExistUser(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
