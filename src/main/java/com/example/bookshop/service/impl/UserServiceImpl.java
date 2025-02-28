@@ -170,7 +170,6 @@ public class UserServiceImpl implements UserService {
         responseDto.setMessage("Foydalanuvchilar topildi");
         responseDto.setRecordsTotal(users.size());
         responseDto.setData(users);
-
         return responseDto;
     }
 

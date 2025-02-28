@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers(pathAnonymous).permitAll()
-                                .requestMatchers("/admin/**").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/book/**").hasAnyRole("ADMIN", "AUTHOR")
                                 .requestMatchers("/author/**").permitAll()
                                 .requestMatchers("/role/**").permitAll()

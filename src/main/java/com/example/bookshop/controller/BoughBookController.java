@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class BoughBookController {
 
     @Operation(summary = "Sotib olingan kitobni id orqali olish")
     @GetMapping("/get-by-id/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDto<BoughtBooksDto>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(boughtBookService.get(id));
     }
 
     @Operation(summary = "Barcha sotib olingan kitoblarni ko'rish")
     @GetMapping("/get-all")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<BoughtBooksDto>> getAll(Pageable pageable) {
         Page<BoughtBooksDto> page = boughtBookService.getAll(pageable);
         return ResponseEntity.ok(page.getContent());
