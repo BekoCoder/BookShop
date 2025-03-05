@@ -1,6 +1,7 @@
 package com.example.bookshop.controller;
 
 import com.example.bookshop.dto.*;
+import com.example.bookshop.service.CommentService;
 import com.example.bookshop.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +22,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private final CommentService commentService;
 
     @Operation(summary = "Foydalanuvchilarni id orqali olish")
     @GetMapping("/get-by-id/{id}")
@@ -90,6 +92,13 @@ public class AdminController {
     public ResponseEntity<ResponseDto<List<UserBuyDto>>> mostActiveUsersBySum() {
         log.trace("Accessing GET /admin/most-active-users-by-sum");
         return ResponseEntity.ok(userService.getUserBuys());
+    }
+
+    @Operation(summary = "Barcha komentariyalarni olish")
+    @GetMapping("/get-all-comments")
+    public ResponseEntity<ResponseDto<List<CommentsDto>>> getAllComment() {
+        log.info("Get all comments operation started");
+        return ResponseEntity.ok(userService.getComments());
     }
 
 

@@ -31,4 +31,6 @@ public interface UserService {
     ResponseDto<List<BasicDto>> mostActiveUsers();
 
     ResponseDto<List<UserBuyDto>> getUserBuys();
+
+    ResponseDto<List<CommentsDto>> getComments();
 }

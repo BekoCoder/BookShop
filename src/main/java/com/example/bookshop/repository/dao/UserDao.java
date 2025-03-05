@@ -16,4 +16,6 @@ public interface UserDao {
     List<UserBasicDto> getLastWeek();
 
     List<UserBuyDto> getUserBuys();
+
+    List<CommentsDto> getComments();
 }
