@@ -125,4 +125,19 @@ public class UserDaoImpl implements UserDao {
         Query query = entityManager.createNativeQuery(sql, UserBuyDto.class);
         return query.getResultList();
     }
+
+    @Override
+    public List<CommentsDto> getComments() {
+        String sql= """
+                SELECT u.ID,
+                       u.FIRST_NAME,
+                       u.LAST_NAME,
+                       c.COMMENTS,
+                       b.TITLE
+                FROM USERS u inner join COMMENTS c on u.ID = c.USERS_ID
+                             inner join BOOKS b on c.BOOKS_ID=b.ID
+                """;
+        Query query = entityManager.createNativeQuery(sql, CommentsDto.class);
+        return  query.getResultList();
+    }
 }

@@ -202,6 +202,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseDto<List<CommentsDto>> getComments() {
+        ResponseDto<List<CommentsDto>> responseDto = new ResponseDto<>();
+        List<CommentsDto> comments = userDao.getComments();
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Barcha komentariyalar topildi");
+        responseDto.setRecordsTotal(comments.size());
+        responseDto.setData(comments);
+        return responseDto;
+    }
+
+    @Override
     public boolean isExistUser(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
